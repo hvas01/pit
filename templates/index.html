@@ -1,0 +1,100 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Tính BHXH, BHYT, BHTN, Thuế thu nhập, lương net
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Tính BHXH, BHYT, BHTN, Thuế thu nhập, lương net</h2>
+    <form method="POST" action="/">
+        <dl>
+            {{ form.csrf_token }}
+            {{ wtf.form_field(form.gross) }}
+            {{ wtf.form_field(form.contract) }}
+            {{ wtf.form_field(form.dependant) }}
+            {{ wtf.form_field(form.region) }}
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </dl>
+    </form>
+    <hr>
+    <div class="jumbotron">  
+        <h4>Kết quả</h4>      
+        <table class="table table-borderless">            
+            <tbody>
+            {% for item in data %}
+            <tr>
+                <td> {{ item['Name'] }} </td>
+                <td> {{ item['Value'] }} </td>
+            </tr>
+            {%  endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="MoreInfo">  
+        <hr>
+        <p></p>
+        <h4>Thông tin tỉ lệ đóng BHXH, BHYT, BHTN (2019)</h4>
+        <p>BHXH: 8% (không quá 20 lần mức lương cơ sở).</p>
+        <p>BHYT: 1.5% (không quá 20 lần mức lương cơ sở).</p>
+        <p>BHTN: 1% (không quá 20 lần mức lương tối thiểu vùng).</p>
+        <p>Lương cơ sở: 1.490.000 đồng/tháng (từ 01/07/2019)</p>
+        <p>Lương tối thiếu theo vùng:</p>
+        <p>- Vùng I: 4.180.000 đồng/tháng (Hà Nội, Quảng Ninh, Đà Nẵng, Tp.HCM, Bình Dương, Đồng Nai, Vũng Tàu.)</p>
+        <p>- Vùng II: 3.710.000 đồng/tháng (Hải Phòng, Vĩnh Phúc, Thái Nguyên, Khánh Hoà, Bình Phước, Tây Ninh, Long An, An Giang, Cần Thơ, Cà Mau.)</p>
+        <p>- Vùng III: 3.250.000 đồng/tháng (Hà Tây, Bắc Ninh, Hải Dương, Hưng Yên, Huế, Bình Định, Gia Lai, Đắc Lắc, Lâm Đồng, Ninh Thuận, Bình Thuận, ĐồngTháp, Tiền Giang, Vĩnh Long, Bến Tre, Kiên Giang, Hậu Giang, Sóc Trăng, Bạc Liêu.)</p>
+        <p>- Vùng IV: 2.920.000 đồng/tháng (là các tỉnh còn lại.)</p>
+        <p></p>
+        <h4>Bảng mức thuế thu nhập cá nhân</h4>
+        <p>Trong bảng bên dưới, chữ viết tắt TN là số tiền thu nhập chịu thuế theo tháng (sau khi đã trừ đi các khoản bảo hiểm và giảm trừ gia cảnh).</p>
+        <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+            <th>Bậc</th>
+            <th>Thu nhập tháng</th>
+            <th>Số thuế phải nộp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td class="text-center">1</td>
+            <td class="text-center">TN &lt;= 5tr</td>
+            <td class="text-center">TN x 5%</td>
+            </tr>
+            <tr>
+            <td class="text-center">2</td>
+            <td class="text-center">5tr &lt; TN &lt;= 10tr</td>
+            <td class="text-center">TN x 10% - 0.25tr</td>
+            </tr>
+            <tr>
+            <td class="text-center">3</td>
+            <td class="text-center">10tr &lt; TN &lt;= 18tr</td>
+            <td class="text-center">TN x 15% - 0.75tr</td>
+            </tr>
+            <tr>
+            <td class="text-center">4</td>
+            <td class="text-center">18tr &lt; TN &lt;= 32tr</td>
+            <td class="text-center">TN x 20% - 1.65tr</td>
+            </tr>
+            <tr>
+            <td class="text-center">5</td>
+            <td class="text-center">32tr &lt; TN &lt;= 52tr</td>
+            <td class="text-center">TN x 25% - 3.25tr</td>
+            </tr>
+            <tr>
+            <td class="text-center">6</td>
+            <td class="text-center">52tr &lt; TN &lt;= 80tr</td>
+            <td class="text-center">TN x 30% - 5.85tr</td>
+            </tr>
+            <tr>
+            <td class="text-center">7</td>
+            <td class="text-center">TN &gt; 80tr</td>
+            <td class="text-center">TN x 35% - 9.85tr</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
